@@ -1,20 +1,30 @@
 # GPO Result Comparison Toolkit
 
-A read-only PowerShell toolkit for collecting and comparing Group Policy result data.
+PowerShell tools for collecting and comparing Group Policy results and applying guarded local policy repairs.
 
-## Features
-
-- Local GPResult HTML collection
-- Computer and user policy summary
-- Optional comparison of two exported result files
-- CSV, JSON, TXT, and HTML reports
-
-## Run
+## Compare policy results
 
 ```powershell
 powershell.exe -ExecutionPolicy Bypass -File .\GPO_Result_Comparison_Toolkit.ps1
 ```
 
-## Safety
+## Repair
 
-Read-only reporting only. No Group Policy settings are changed.
+```powershell
+powershell.exe -ExecutionPolicy Bypass -File .\GPO_Result_Repair_Toolkit.ps1 -ForceUpdate -Target Both -DryRun
+```
+
+Examples:
+
+```powershell
+.\GPO_Result_Repair_Toolkit.ps1 -ForceUpdate -Target Computer
+.\GPO_Result_Repair_Toolkit.ps1 -RestartNetlogon -ForceUpdate
+.\GPO_Result_Repair_Toolkit.ps1 -RepairWmiRepository -ForceUpdate
+.\GPO_Result_Repair_Toolkit.ps1 -ResetLocalPolicyCache -ForceUpdate
+```
+
+The repair script backs up local policy cache folders before resetting them, captures `gpresult` and policy events before and after repair, and supports `-DryRun`, confirmation, logs and clear exit codes. It does not edit domain GPOs, links or security filtering.
+
+## Author
+
+Dewald Pretorius — L2 IT Support Engineer
